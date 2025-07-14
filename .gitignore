@@ -1,0 +1,60 @@
+# ====== GLOBAL ======
+*.log
+*.tmp
+*.bak
+*.sw?
+*.pid
+*.tar
+.env
+.env.local
+.env.*.local
+
+# ====== FRONTEND (React + Vite) ======
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.env
+frontend/.DS_Store
+frontend/.idea/
+frontend/.vscode/
+
+# ====== BACKEND (Spring Boot) ======
+backend/target/
+backend/.mvn/
+backend/.env
+backend/.DS_Store
+backend/logs/
+backend/.idea/
+backend/.vscode/
+backend/HELP.md
+backend/*.iml
+
+# ====== EDITORS / SYSTEM FILES ======
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.class
+*.jar
+*.war
+*.zip
+.DS_Store
+.idea/
+.vscode/
+*.iml
+
+# ====== JENKINS ======
+jenkins_output/
+.jenkins/
+.cache/
+.build/
+
+# ====== LINUX SYSTEM ======
+*~
+.cache/
+.Trash-*/
+
+# ====== OPTIONAL: OS generated files ======
+Thumbs.db
+ehthumbs.db
+Desktop.ini
