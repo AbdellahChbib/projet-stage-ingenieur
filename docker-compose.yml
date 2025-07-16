@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    container_name: azbane-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - azbane-net
+
+  frontend:
+    build: ./frontend
+    container_name: azbane-frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - azbane-net
+    environment:
+      - CHOKIDAR_USEPOLLING=true  # Fix pour vite/dev mode dans Docker
+
+networks:
+  azbane-net:
