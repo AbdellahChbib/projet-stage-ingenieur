@@ -4,7 +4,7 @@ function Hello() {
   const [message, setMessage] = useState('Chargement...');
 
   useEffect(() => {
-    fetch('http://localhost:8080/hello')
+    fetch('https://azbane-backend-app-dhc7c4h5a5ayg2hc.francecentral-01.azurewebsites.net/hello')
       .then((res) => res.text())
       .then((data) => setMessage(data))
       .catch((err) => setMessage('Erreur : ' + err.message));
