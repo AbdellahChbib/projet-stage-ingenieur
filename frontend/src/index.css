@@ -1,68 +1,69 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* Styles de base personnalisés pour votre projet routier */
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
   }
-  a:hover {
-    color: #747bff;
+  
+  body {
+    @apply bg-gradient-to-br from-road-50 to-road-100 text-road-900;
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+/* Composants personnalisés */
+@layer components {
+  .btn-primary {
+    @apply bg-construction-500 hover:bg-construction-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-road-600 hover:bg-road-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-lg p-6 border border-road-200;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-2 border border-road-300 rounded-lg focus:ring-2 focus:ring-construction-400 focus:border-transparent outline-none transition-all duration-200;
+  }
+  
+  .navbar {
+    @apply bg-gradient-to-r from-road-800 to-road-700 text-white shadow-xl;
+  }
+  
+  .road-pattern {
+    @apply relative;
+  }
+  
+  .road-pattern::before {
+    content: '';
+    @apply absolute inset-0 opacity-10;
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 10px,
+      #fbbf24 10px,
+      #fbbf24 20px
+    );
+    animation: roadFlow 2s linear infinite;
+  }
+}
+
+/* Utilitaires personnalisés */
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .glass-effect {
+    @apply backdrop-blur-md bg-white/30 border border-white/20;
+  }
+  
+  .construction-warning {
+    @apply bg-construction-100 border-l-4 border-construction-500 text-construction-800 p-4;
   }
 }
