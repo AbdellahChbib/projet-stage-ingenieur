@@ -46,6 +46,7 @@ public class User implements UserDetails {
     private String position;
     private String phoneNumber;
     
+    @Builder.Default
     @Column(nullable = false)
     private Boolean enabled = true;
     
