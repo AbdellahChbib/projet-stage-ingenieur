@@ -32,29 +32,21 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(req ->
-                        req.requestMatchers(
-                                        "/api/auth/**",
-                                        "/hello",
-                                        "/v2/api-docs",
-                                        "/v3/api-docs",
-                                        "/v3/api-docs/**",
-                                        "/swagger-resources",
-                                        "/swagger-resources/**",
-                                        "/configuration/ui",
-                                        "/configuration/security",
-                                        "/swagger-ui/**",
-                                        "/webjars/**",
-                                        "/swagger-ui.html"
-                                ).permitAll()
-                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/api/manager/**").hasAnyRole("ADMIN", "MANAGER")
-                                .anyRequest()
-                                .authenticated()
+                .authorizeHttpRequests(req -> req
+                        // Endpoints publics
+                        .requestMatchers("/hello", "/api/auth/**", "/h2-console/**").permitAll()
+                        // Endpoints protégés
+                        .requestMatchers("/api/user/**").authenticated()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/manager/**").hasAnyRole("ADMIN", "MANAGER")
+                        // Toutes les autres requêtes doivent être authentifiées
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                // Pour H2 console (optionnel en dev)
+                .headers(headers -> headers.frameOptions().sameOrigin());
 
         return http.build();
     }
@@ -62,10 +54,15 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("https://azbane-frontend-app-dycshbffegcpgydk.francecentral-01.azurewebsites.net"));
+        configuration.setAllowedOriginPatterns(List.of(
+            "https://azbane-frontend-app-dycshbffegcpgydk.francecentral-01.azurewebsites.net",
+            "http://localhost:*",
+            "http://127.0.0.1:*",
+            "*" // Pour les tests
+        ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(false); // Désactiver pour les tests avec "*"
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
