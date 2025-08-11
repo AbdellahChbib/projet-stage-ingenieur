@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final AuthenticationService service;
@@ -47,9 +46,30 @@ public class AuthController {
         }
     }
 
+    // Alias pour /authenticate
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> login(
+            @Valid @RequestBody AuthenticationRequest request
+    ) {
+        log.info("Demande de login reçue pour: {}", request.getEmail());
+        return authenticate(request);
+    }
+
     @PostMapping("/logout")
     public ResponseEntity<String> logout() {
         // Pour JWT, le logout est géré côté client en supprimant le token
         return ResponseEntity.ok("Déconnexion réussie");
+    }
+
+    // Endpoint de test simple
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("Test endpoint fonctionne!");
+    }
+
+    @PostMapping("/test-post")
+    public ResponseEntity<String> testPost(@RequestBody String body) {
+        log.info("Test POST reçu avec body: {}", body);
+        return ResponseEntity.ok("Test POST reçu: " + body);
     }
 }
